@@ -1,8 +1,10 @@
 package com.example.chucknorrisproject
 
+import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +25,5 @@ class MainActivity : AppCompatActivity() {
             "Chuck Norris can spam faster than anyone in the whole world. The speed is 0. that means infinity words per second.",
             "When Captain Phillips returned to sea.........he's bringing Chuck Norris this time!")
     }
-
-
 
     }
