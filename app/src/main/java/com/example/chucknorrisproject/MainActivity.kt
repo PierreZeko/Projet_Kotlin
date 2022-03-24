@@ -1,6 +1,6 @@
 package com.example.chucknorrisproject
 
-import android.nfc.Tag
+import com.example.chucknorrisproject.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log

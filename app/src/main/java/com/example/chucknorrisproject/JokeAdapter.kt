@@ -21,18 +21,16 @@ class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
         "When Captain Phillips returned to sea.........he's bringing Chuck Norris this time!")
 
 
-    class JokeViewHolder(val view: TextView) : RecyclerView.ViewHolder(view){
-
-    }
+    class JokeViewHolder(val textview: TextView) : RecyclerView.ViewHolder(textview)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokeViewHolder {
-        val textview = TextView()
+        val textview = TextView(parent.context)    //LayoutInflater.from(parent.context).inflate(R.layout.joke_layout, parent, false)
         return JokeViewHolder(textview)
     }
 
     override fun onBindViewHolder(holder: JokeViewHolder, position: Int) {
         val currentJoke = Jokes[position]
-        JokeViewHolder.setText(currentJoke)
+        holder.textview.text = currentJoke
     }
 
     override fun getItemCount(): Int = Jokes.size
