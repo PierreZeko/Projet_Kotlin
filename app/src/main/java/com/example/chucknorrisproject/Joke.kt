@@ -1,11 +1,15 @@
 package com.example.chucknorrisproject
 
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+
+@Serializable
 data class Joke(
     val categories: List<Any>,
-    val created_at: String,
-    val icon_url: String,
+    val createdAt: String,
+    val iconUrl: String,
     val id: String,
-    val updated_at: String,
+    val updatedAt: String,
     val url: String,
     val value: String
 )
