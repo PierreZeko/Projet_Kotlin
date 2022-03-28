@@ -21,6 +21,8 @@ class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
         "Chuck Norris can spam faster than anyone in the whole world. The speed is 0. that means infinity words per second.",
         "When Captain Phillips returned to sea.........he's bringing Chuck Norris this time!")
 
+    var Jokes2 : List<Joke> = Jokes.map{Joke(value = it)}
+
 
     class JokeViewHolder(val view: ConstraintLayout) : RecyclerView.ViewHolder(view){
         val textview = view.findViewById<TextView>(R.id.textview_id)
@@ -33,10 +35,10 @@ class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: JokeViewHolder, position: Int) {
-        val currentJoke = Jokes[position]
-        holder.textview.text = currentJoke
+        val currentJoke: Joke = Jokes2[position]
+        holder.textview.text = currentJoke.value
     }
 
-    override fun getItemCount(): Int = Jokes.size
+    override fun getItemCount(): Int = Jokes2.size
 
 }
