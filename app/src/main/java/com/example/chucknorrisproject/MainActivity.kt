@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.Single
+import io.reactivex.disposables.Disposable
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,4 +30,15 @@ class MainActivity : AppCompatActivity() {
             "When Captain Phillips returned to sea.........he's bringing Chuck Norris this time!")
     }
 
-    }
+    /*val joke_service = JokeApiService.giveMeAJoke()
+
+    fun <T : Any> Single<T>.subscribeBy(
+        onError: (Throwable) -> Unit = onErrorStub,
+        onSuccess: (T) -> Unit = onNextStub
+    ): Disposable {
+        onSuccess = {}
+        onError = {}
+
+    }*/
+
+}

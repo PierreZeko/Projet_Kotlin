@@ -31,4 +31,9 @@ class JokeSerializationTest {
         Assert.assertEquals(baseJoke, joke)
     }
 
+    companion object {
+        private val Json = Json {
+            encodeDefaults = true
+        }
+    }
 }
