@@ -7,6 +7,9 @@ import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,15 +33,14 @@ class MainActivity : AppCompatActivity() {
             "When Captain Phillips returned to sea.........he's bringing Chuck Norris this time!")
     }
 
-    /*val joke_service = JokeApiService.giveMeAJoke()
+    val composite_disposable = CompositeDisposable()
 
-    fun <T : Any> Single<T>.subscribeBy(
-        onError: (Throwable) -> Unit = onErrorStub,
-        onSuccess: (T) -> Unit = onNextStub
-    ): Disposable {
-        onSuccess = {}
-        onError = {}
-
-    }*/
+    val joke_service: Disposable = JokeApiServiceFactory.createService().giveMeAJoke().subscribeOn(Schedulers.io()).subscribeBy(
+        onError = { Log.d("error", "an error occured") },
+        onSuccess = {
+            Log.d("success", "The joke is ${JokeApiServiceFactory.createService().giveMeAJoke()}")
+            //composite_disposable.clear()
+        }
+    ).also { composite_disposable.add(it) }
 
 }
