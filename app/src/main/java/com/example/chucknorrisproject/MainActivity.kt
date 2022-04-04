@@ -1,27 +1,31 @@
 package com.example.chucknorrisproject
 
+import android.animation.ObjectAnimator
 import com.example.chucknorrisproject.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
+import android.widget.ProgressBar
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //callJoke()
         val recyclerview = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerview.adapter = adapter
-        var button = findViewById<Button>(R.id.button_id)
-        button.setOnClickListener{callJoke()}
+        val button = findViewById<Button>(R.id.button_id)
+        button.setOnClickListener{repeat(joke_number){callJoke()}}
     }
 
     override fun onDestroy() {
@@ -32,10 +36,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun callJoke() {
-        joke_service.giveMeAJoke().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(
+        val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
+        progressBar.max = 10000
+        progressBar.progress = 0
+        ObjectAnimator.ofInt(progressBar, "progress", progressBar.max).setDuration(2000).start()
+        progressBar.visibility = View.VISIBLE
+        joke_service.giveMeAJoke().delay(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(
             onError = { Log.d("error", "an error occured") },
             onSuccess = {
-                Log.d("success", "The joke is ${it.value}")
+                progressBar.visibility = View.INVISIBLE
+                Log.d("success", "The joke is: ${it.value}")
                 adapter.updateList(it)
             }
         ).also { composite_disposable.add(it) }
@@ -55,8 +65,7 @@ class MainActivity : AppCompatActivity() {
     }*/
 
     val composite_disposable = CompositeDisposable()
-
     val joke_service: JokeApiService = JokeApiServiceFactory.createService()
-
     val adapter = JokeAdapter()
+    val joke_number = 10
 }
