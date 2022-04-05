@@ -11,12 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
 
     fun updateList(it: Joke) {
-        Jokes = Jokes + it.value
+        jokes2 = jokes2 + it
         notifyDataSetChanged()
     }
-    var Jokes = listOf<String>()
 
-    var Jokes2 : List<Joke> = Jokes.map{Joke(value = it)}
+    var jokes2 = listOf<Joke>()
 
 
     class JokeViewHolder(val view: ConstraintLayout) : RecyclerView.ViewHolder(view){
@@ -30,10 +29,10 @@ class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: JokeViewHolder, position: Int) {
-        val currentJoke: Joke = Jokes2[position]
+        val currentJoke: Joke = jokes2[position]
         holder.textview.text = currentJoke.value
     }
 
-    override fun getItemCount(): Int = Jokes2.size
+    override fun getItemCount(): Int = jokes2.size
 
 }

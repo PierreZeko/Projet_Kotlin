@@ -69,5 +69,4 @@ class MainActivity : AppCompatActivity() {
     val composite_disposable = CompositeDisposable()
     val joke_service: JokeApiService = JokeApiServiceFactory.createService()
     val adapter = JokeAdapter()
-    val joke_number = 10
 }
