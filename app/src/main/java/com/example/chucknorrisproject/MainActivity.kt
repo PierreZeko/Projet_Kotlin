@@ -9,6 +9,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import android.widget.ProgressBar
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val recyclerview = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerview.adapter = adapter
         val button = findViewById<Button>(R.id.button_id)
-        button.setOnClickListener{repeat(joke_number){callJoke()}}
+        button.setOnClickListener{callJoke()}
     }
 
     override fun onDestroy() {
@@ -41,13 +42,14 @@ class MainActivity : AppCompatActivity() {
         progressBar.progress = 0
         ObjectAnimator.ofInt(progressBar, "progress", progressBar.max).setDuration(2000).start()
         progressBar.visibility = View.VISIBLE
-        joke_service.giveMeAJoke().delay(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(
+        joke_service.giveMeAJoke().toObservable().repeat(10).delay(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(
             onError = { Log.d("error", "an error occured") },
-            onSuccess = {
+            onNext = {
                 progressBar.visibility = View.INVISIBLE
                 Log.d("success", "The joke is: ${it.value}")
                 adapter.updateList(it)
-            }
+            },
+            onComplete = {Log.d("end", "10 jokes have been shown")}
         ).also { composite_disposable.add(it) }
     }
 

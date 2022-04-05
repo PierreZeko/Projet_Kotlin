@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
 
     fun updateList(it: Joke) {
-        Jokes += it.value
+        Jokes = Jokes + it.value
         notifyDataSetChanged()
     }
     var Jokes = listOf<String>()
