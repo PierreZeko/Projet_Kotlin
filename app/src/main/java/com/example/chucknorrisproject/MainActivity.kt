@@ -9,7 +9,9 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import android.widget.ProgressBar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -25,8 +27,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val recyclerview = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerview.adapter = adapter
-        val button = findViewById<Button>(R.id.button_id)
-        button.setOnClickListener{callJoke()}
+        callJoke()
+
+        /**recyclerview.addOnScrollListener(RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerViewIntern: RecyclerView, dx, dy) {
+                super.onScrolled(recyclerViewIntern, dx, dy)
+                if (! isLoading) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == numberJokes) {
+                        recyclerview.adapter = JokeAdapter()
+                    }
+                }
+            }
+        })**/
+
+
+        // à lire: voir à la fin de la page
     }
 
     override fun onDestroy() {
@@ -43,7 +58,9 @@ class MainActivity : AppCompatActivity() {
         ObjectAnimator.ofInt(progressBar, "progress", progressBar.max).setDuration(2000).start()
         progressBar.visibility = View.VISIBLE
         joke_service.giveMeAJoke().toObservable().repeat(10).delay(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(
-            onError = { Log.d("error", "an error occured") },
+            onError = {
+                progressBar.visibility = View.INVISIBLE
+                Log.d("error", "an error occured") },
             onNext = {
                 progressBar.visibility = View.INVISIBLE
                 Log.d("success", "The joke is: ${it.value}")
@@ -69,4 +86,17 @@ class MainActivity : AppCompatActivity() {
     val composite_disposable = CompositeDisposable()
     val joke_service: JokeApiService = JokeApiServiceFactory.createService()
     val adapter = JokeAdapter()
+
+    val linearLayoutManager: LinearLayoutManager = findViewById<RecyclerView>(R.id.recycler_view).layoutManager as LinearLayoutManager
+    val lastJokeVisiblePosition = linearLayoutManager.findLastVisibleItemPosition()
+    val isLoading = false
+    val numberJokes = 10
 }
+
+
+/** chose à rajouter à la fin pour améliorer l'application:
+
+- image application
+- interface bienvenue application
+- écran d'accueil avec boutons: blague (mainActivity), exit, lien github du projet, description de l'appli (ce qu'elle fait et pourquoi elle a été créée)
+- ajouter des sons lors de l'activation de certaines fonctionnalités **/

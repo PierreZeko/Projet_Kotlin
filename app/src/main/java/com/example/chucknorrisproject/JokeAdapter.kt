@@ -1,6 +1,7 @@
 package com.example.chucknorrisproject
 
 import android.view.LayoutInflater
+import android.view.ScrollCaptureCallback
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -8,17 +9,20 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.chucknorrisproject.R
 import androidx.recyclerview.widget.RecyclerView
 
-class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
+class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(/**onBottomReached**/){
+
+    var jokes = listOf<Joke>()
 
     fun updateList(it: Joke) {
-        jokes2 = jokes2 + it
+        jokes = jokes + it
         notifyDataSetChanged()
     }
 
-    var jokes2 = listOf<Joke>()
+    /**fun onBottomReached() {
 
+    }**/
 
-    class JokeViewHolder(val view: ConstraintLayout) : RecyclerView.ViewHolder(view){
+    inner class JokeViewHolder(val view: ConstraintLayout) : RecyclerView.ViewHolder(view){
         val textview = view.findViewById<TextView>(R.id.textview_id)
     }
 
@@ -29,10 +33,10 @@ class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: JokeViewHolder, position: Int) {
-        val currentJoke: Joke = jokes2[position]
+        val currentJoke: Joke = jokes[position]
         holder.textview.text = currentJoke.value
     }
 
-    override fun getItemCount(): Int = jokes2.size
+    override fun getItemCount(): Int = jokes.size
 
 }
