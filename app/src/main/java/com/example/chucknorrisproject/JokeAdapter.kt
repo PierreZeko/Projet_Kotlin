@@ -9,18 +9,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.chucknorrisproject.R
 import androidx.recyclerview.widget.RecyclerView
 
-class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(/**onBottomReached**/){
-
+class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(/** updateScroll() **/){
+    /** val updateScroll : () -> Unit = onCreateViewHolder() **/
     var jokes = listOf<Joke>()
 
     fun updateList(it: Joke) {
         jokes = jokes + it
         notifyDataSetChanged()
     }
-
-    /**fun onBottomReached() {
-
-    }**/
 
     inner class JokeViewHolder(val view: ConstraintLayout) : RecyclerView.ViewHolder(view){
         val textview = view.findViewById<TextView>(R.id.textview_id)

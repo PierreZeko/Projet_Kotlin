@@ -28,18 +28,7 @@ class MainActivity : AppCompatActivity() {
         val recyclerview = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerview.adapter = adapter
         callJoke()
-
-        /**recyclerview.addOnScrollListener(RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerViewIntern: RecyclerView, dx, dy) {
-                super.onScrolled(recyclerViewIntern, dx, dy)
-                if (! isLoading) {
-                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == numberJokes) {
-                        recyclerview.adapter = JokeAdapter()
-                    }
-                }
-            }
-        })**/
-
+        /** onBottomReached(recyclerview) **/
 
         // à lire: voir à la fin de la page
     }
@@ -52,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun callJoke() {
+        isLoading = true
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
         progressBar.max = 10000
         progressBar.progress = 0
@@ -66,9 +56,29 @@ class MainActivity : AppCompatActivity() {
                 Log.d("success", "The joke is: ${it.value}")
                 adapter.updateList(it)
             },
-            onComplete = {Log.d("end", "10 jokes have been shown")}
+            onComplete = {
+                Log.d("end", "10 jokes have been shown")
+                isLoading = false}
         ).also { composite_disposable.add(it) }
     }
+
+    /** fun onBottomReached(recyclerview: RecyclerView) {
+        recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) {
+                    if (!isLoading) {
+                        if ((visibleJokeCount + firstJokeVisiblePosition >= numberJokes)) {
+                            numberPage = numberPage + 1
+                            recyclerView.adapter = JokeAdapter()
+                            callJoke()
+                        }
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        })
+
+    } **/
 
     /*object Jokes {
         val jokes_list = listOf<String>("Some people balance eggs on end every Spring and Fall Equinox, but Chuck Norris balances skulls.",
@@ -88,9 +98,11 @@ class MainActivity : AppCompatActivity() {
     val adapter = JokeAdapter()
 
     val linearLayoutManager: LinearLayoutManager = findViewById<RecyclerView>(R.id.recycler_view).layoutManager as LinearLayoutManager
-    val lastJokeVisiblePosition = linearLayoutManager.findLastVisibleItemPosition()
-    val isLoading = false
-    val numberJokes = 10
+    val firstJokeVisiblePosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
+    val visibleJokeCount = linearLayoutManager.childCount
+    val numberJokes = adapter.itemCount
+    var isLoading = false
+    var numberPage = 1
 }
 
 
