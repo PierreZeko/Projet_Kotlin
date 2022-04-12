@@ -1,16 +1,14 @@
 package com.example.chucknorrisproject
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.ScrollCaptureCallback
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.chucknorrisproject.R
 import androidx.recyclerview.widget.RecyclerView
 
-class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(/** updateScroll() **/){
-    /** val updateScroll : () -> Unit = onCreateViewHolder() **/
+class JokeAdapter(private val onBottomReach: () -> Unit) : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
+
     var jokes = listOf<Joke>()
 
     fun updateList(it: Joke) {
@@ -18,8 +16,8 @@ class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(/** updateS
         notifyDataSetChanged()
     }
 
-    inner class JokeViewHolder(val view: ConstraintLayout) : RecyclerView.ViewHolder(view){
-        val textview = view.findViewById<TextView>(R.id.textview_id)
+    inner class JokeViewHolder(private val view: ConstraintLayout) : RecyclerView.ViewHolder(view){
+        val textview: TextView = view.findViewById<TextView>(R.id.textview_id)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokeViewHolder {
@@ -31,6 +29,10 @@ class JokeAdapter : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(/** updateS
     override fun onBindViewHolder(holder: JokeViewHolder, position: Int) {
         val currentJoke: Joke = jokes[position]
         holder.textview.text = currentJoke.value
+        Log.d("onBind", "position=${position}, jokeSize=${jokes.lastIndex}")
+        if (position == jokes.lastIndex && position >= 9) {
+            onBottomReach()
+        }
     }
 
     override fun getItemCount(): Int = jokes.size

@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import com.example.chucknorrisproject.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,9 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Serializer
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
@@ -28,57 +32,56 @@ class MainActivity : AppCompatActivity() {
         val recyclerview = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerview.adapter = adapter
         callJoke()
-        /** onBottomReached(recyclerview) **/
+
+
+        /** val listJokes: String = adapter.jokes.toString().Serialize **/
+
+
+        //val buttonJoke = findViewById<Button>(R.id.button_id)
+        //buttonJoke.setOnClickListener { callJoke() }
 
         // à lire: voir à la fin de la page
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        println("info avant ${composite_disposable.size()}")
-        composite_disposable.clear()
-        println("info après ${composite_disposable.size()}")
+    /** override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
     }
 
-    fun callJoke() {
-        isLoading = true
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState?.run {
+
+        }
+    } **/
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("info before ${compositeDisposable.size()}")
+        compositeDisposable.clear()
+        println("info after ${compositeDisposable.size()}")
+    }
+
+    private fun callJoke() {
         val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
         progressBar.max = 10000
         progressBar.progress = 0
         ObjectAnimator.ofInt(progressBar, "progress", progressBar.max).setDuration(2000).start()
         progressBar.visibility = View.VISIBLE
-        joke_service.giveMeAJoke().toObservable().repeat(10).delay(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(
+        jokeService.giveMeAJoke().toObservable().repeat(10).delay(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(
             onError = {
                 progressBar.visibility = View.INVISIBLE
-                Log.d("error", "an error occured") },
+                Log.d("error", "an error occurred") },
             onNext = {
                 progressBar.visibility = View.INVISIBLE
                 Log.d("success", "The joke is: ${it.value}")
                 adapter.updateList(it)
             },
             onComplete = {
-                Log.d("end", "10 jokes have been shown")
-                isLoading = false}
-        ).also { composite_disposable.add(it) }
+                Log.d("end", "10 jokes have been shown") }
+        ).also { compositeDisposable.add(it) }
     }
 
-    /** fun onBottomReached(recyclerview: RecyclerView) {
-        recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) {
-                    if (!isLoading) {
-                        if ((visibleJokeCount + firstJokeVisiblePosition >= numberJokes)) {
-                            numberPage = numberPage + 1
-                            recyclerView.adapter = JokeAdapter()
-                            callJoke()
-                        }
-                    }
-                }
-                super.onScrolled(recyclerView, dx, dy)
-            }
-        })
 
-    } **/
 
     /*object Jokes {
         val jokes_list = listOf<String>("Some people balance eggs on end every Spring and Fall Equinox, but Chuck Norris balances skulls.",
@@ -93,22 +96,15 @@ class MainActivity : AppCompatActivity() {
             "When Captain Phillips returned to sea.........he's bringing Chuck Norris this time!")
     }*/
 
-    val composite_disposable = CompositeDisposable()
-    val joke_service: JokeApiService = JokeApiServiceFactory.createService()
-    val adapter = JokeAdapter()
-
-    val linearLayoutManager: LinearLayoutManager = findViewById<RecyclerView>(R.id.recycler_view).layoutManager as LinearLayoutManager
-    val firstJokeVisiblePosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition()
-    val visibleJokeCount = linearLayoutManager.childCount
-    val numberJokes = adapter.itemCount
-    var isLoading = false
-    var numberPage = 1
+    private val compositeDisposable = CompositeDisposable()
+    private val jokeService: JokeApiService = JokeApiServiceFactory.createService()
+    private val adapter = JokeAdapter(onBottomReach = {callJoke()
+    Log.d("adapter", "the adapter has been called")})
 }
 
 
 /** chose à rajouter à la fin pour améliorer l'application:
 
-- image application
 - interface bienvenue application
 - écran d'accueil avec boutons: blague (mainActivity), exit, lien github du projet, description de l'appli (ce qu'elle fait et pourquoi elle a été créée)
 - ajouter des sons lors de l'activation de certaines fonctionnalités **/
