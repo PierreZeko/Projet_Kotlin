@@ -19,9 +19,10 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
+import kotlinx.serialization.*
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
+import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
@@ -31,28 +32,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val recyclerview = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerview.adapter = adapter
-        callJoke()
-
-
-        /** val listJokes: String = adapter.jokes.toString().Serialize **/
-
 
         //val buttonJoke = findViewById<Button>(R.id.button_id)
         //buttonJoke.setOnClickListener { callJoke() }
 
+        Log.d("test avant if", "$savedInstanceState")
+        Log.d("test avant if", "${savedInstanceState?.containsKey(keyRotation) != true}")
+        if (savedInstanceState?.containsKey(keyRotation) != true) {
+            callJoke()
+        }
+
         // à lire: voir à la fin de la page
     }
 
-    /** override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        val listJokeSerialized = Json.encodeToString(adapter.jokes)
+        Log.d("listSerialized", "$listJokeSerialized")
+        savedInstanceState.putString(keyRotation, listJokeSerialized)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        savedInstanceState?.run {
-
-        }
-    } **/
+        val listRestoredJoke = savedInstanceState.getString(keyRotation)
+        val listJokeDeserialized: List<Joke> = listRestoredJoke
+            ?.let { Json.decodeFromString(it) }
+            ?: emptyList()
+        listJokeDeserialized.forEach { adapter.updateList(it) }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -96,6 +103,7 @@ class MainActivity : AppCompatActivity() {
             "When Captain Phillips returned to sea.........he's bringing Chuck Norris this time!")
     }*/
 
+    private val keyRotation = "ListJokeToRemember"
     private val compositeDisposable = CompositeDisposable()
     private val jokeService: JokeApiService = JokeApiServiceFactory.createService()
     private val adapter = JokeAdapter(onBottomReach = {callJoke()
@@ -105,6 +113,7 @@ class MainActivity : AppCompatActivity() {
 
 /** chose à rajouter à la fin pour améliorer l'application:
 
+- faire le readme.txt du github
 - interface bienvenue application
 - écran d'accueil avec boutons: blague (mainActivity), exit, lien github du projet, description de l'appli (ce qu'elle fait et pourquoi elle a été créée)
 - ajouter des sons lors de l'activation de certaines fonctionnalités **/
