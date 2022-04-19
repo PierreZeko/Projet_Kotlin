@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
         val listJokeSerialized = Json.encodeToString(adapter.jokes)
-        Log.d("listSerialized", "$listJokeSerialized")
+        Log.d("listSerialized", listJokeSerialized)
         savedInstanceState.putString(keyRotation, listJokeSerialized)
     }
 
