@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         Log.d("test avant if", "${savedInstanceState?.containsKey(keyRotation) != true}")
         if (savedInstanceState?.containsKey(keyRotation) != true) {
             callJoke()
+
+        /** JokeView(context = parent, attrs = null, defStyleAttr = 0).setupView(model = ) **/
+
         }
 
         // à lire: voir à la fin de la page
@@ -113,7 +116,6 @@ class MainActivity : AppCompatActivity() {
 
 /** chose à rajouter à la fin pour améliorer l'application:
 
-- faire le readme.txt du github
 - interface bienvenue application
 - écran d'accueil avec boutons: blague (mainActivity), exit, lien github du projet, description de l'appli (ce qu'elle fait et pourquoi elle a été créée)
 - ajouter des sons lors de l'activation de certaines fonctionnalités **/
