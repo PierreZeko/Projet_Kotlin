@@ -147,18 +147,21 @@ Cela nous permet ainsi d'obtenir une liste infini de jokes.
 
 
 ## 1. Manage screen rotation
+En implémentant les méthodes "onSavedInstanceState(.)" et "onRestoreInstanceState(.)", on peut ainsi conserver nos jokes lors de la rotation de l'écran.
+Cela évite un rechargement intempestif des jokes et la perte de celles précédemment affichées.
+  
+Il faut donc penser à appeler ces méthodes dans le cas où des jokes avaient été affichées à l'écran.
+  
+## 2. Custom Joke View - Pas totalement implémenté
 
   
-## 2. Custom Joke View
+## 3. Share jokes - Pas implémenté
 
   
-## 3. Share jokes
+## 4. Save jokes - Pas implémenté
 
   
-## 4. Save jokes
-
-  
-## 5. Pull to refresh
+## 5. Pull to refresh - Pas implémenté
 
   
 ## 6. Conclusion
