@@ -1,8 +1,10 @@
 # Projet Kotlin Chuck Norris Jokes API
 
 Ce projet est découpé en 4 grandes parties, elles-mêmes découpées en sous-parties.
+
 Ce"README" a pour but d'en expliquer le contenu.
-Ce projet a lieu dans le cadre de l'unité OUAP 4331 : Android Development For Smartphones With Kotlin
+
+Ce projet a lieu dans le cadre de l'unité OUAP 4331 : Android Development For Smartphones With Kotlin.
 Il est supervisé par M. Duponchel
 
 ------------------------------------------------------------------------------------
