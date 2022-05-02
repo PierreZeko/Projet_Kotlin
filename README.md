@@ -1,9 +1,7 @@
 # Projet Kotlin Chuck Norris Jokes API
 
 Ce projet est découpé en 4 grandes parties, elles-mêmes découpées en sous-parties.
-
 Ce"README" a pour but d'en expliquer le contenu.
-
 Ce projet a lieu dans le cadre de l'unité OUAP 4331 : Android Development For Smartphones With Kotlin.
 Il est supervisé par M. Duponchel
 
@@ -36,6 +34,8 @@ Il faut ensuite Override plusieurs méthodes:
 - getItemCount() qui permet de connaître le nombre de jokes 
 - onBindViewHolder(..) qui permet de donner la nouvelle joke à afficher
 - onCreateViewHolder(..) qui permet de créer la TextView qui sera utilisée dans la classe interne pour ensuite être affichée
+
+On ajoute également un appel à la méthode "notifyDataSetChanged()" qui sert à prévenir que le contenu de notre liste a évolué.
 
 ## 4. Custom view for items
 Maintenant que l'on peut afficher notre liste de jokes à l'écran, il est intéressant de s'occuper du design de l'interface.
@@ -105,19 +105,41 @@ Nous avons donc une application qui peut récupérer une liste de jokes depuis l
 
 
 ## 1. Display a single Joke
-
+Notre objet contenant la liste des jokes n'est désormais plus utile puisque l'on va récupérer les jokes depuis l'API.
+  
+Comme précédemment, l'erreur "CalledFromWrongThreadException" peut apparaître si l'on ne précise pas quel thread doit être utilisé.
+Il faut utiliser la méthode "observeOn(.)" afin de le préciser.
+  
+Puis, on rajoute un bouton à l'interface qui sert à ajouter une nouvelle joke à chaque clic sur celui-ci.
   
 ## 2. Add a loader
-
+Afin de rendre explicite le fait qu'une joke est en cours de chargement depuis l'API, on rajoute une barre de progression.
+Elle est personnalisée et est visible uniquement lors du temps de chargement de la joke. 
+De plus, étant donné que le chargement d'une joke est court, on rajoute un délai afin de la voir durant un temps plus concret.
   
 ## 3. Make the call for multiple jokes with Observable
-
+Il est temps d'effectuer un changement majeur: l'affichage d'un groupe de 10 jokes au lieu d'une seule. 
+Pour cela, on change le "Single" qui était utilisé en "Observable".
+On utilise ensuite la méthode "repeat(.)" qui permet de répéter la même opération autant de fois que nécessaire.
+La méthode "onSuccess" deviens alors "onNext" et "onComplete".
   
 ## 4. Reload new jokes
+Maintenant que tout fonctionne bien, on peut retirer notre bouton de chargement des jokes.
 
+À la place, on ajoute une fonction de rappel, passée en argument à notre adapteur, pour effectuer les consignes souhaitées.
+Cela va permettre de:
+- ne rien faire si aucune fonction n'est précisée
+- appeler la fonction mise en paramètre dans le constructeur de "JokeAdapter"
+
+Il faut ensuite penser à mettre à jour l'instanciation de notre adaptateur puisque l'on a rajouté un paramètre à son constructeur.
+
+Enfin, il est nécessaire de déterminer si l'on a atteint le bas de la page afin de recharger une nouvelle série de jokes sur notre interface.
+La fonction de rappel est donc appelé au moment opportun pour afficher de nouvelles jokes.
   
 ## 5. Conclusion
-
+Nous avons donc à ce stade une application qui peut récupérer une liste de jokes depuis l'API de Chuck Norris sur internet.
+Une fois qu'on atteint le bas de la liste, une nouvelle liste vient se charger en dessous de la précédente.
+Cela nous permet ainsi d'obtenir une liste infini de jokes.
   
 ---------------------------------------------------------------------------------------------------------------------------------------
 
