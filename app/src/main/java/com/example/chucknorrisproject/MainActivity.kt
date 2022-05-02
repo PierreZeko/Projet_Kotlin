@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        // à lire: voir à la fin de la page
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
@@ -115,7 +114,6 @@ class MainActivity : AppCompatActivity() {
 
 
 /** chose à rajouter à la fin pour améliorer l'application:
-
 - interface bienvenue application
 - écran d'accueil avec boutons: blague (mainActivity), exit, lien github du projet, description de l'appli (ce qu'elle fait et pourquoi elle a été créée)
 - ajouter des sons lors de l'activation de certaines fonctionnalités **/
