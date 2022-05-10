@@ -175,9 +175,18 @@ Le bouton de partage doit pouvoir permettre de récupérer le contenu de la joke
   
 ## 4. Save jokes - Pas implémenté
 
-
+Dans cette partie, on va sauvegarder les jokes annotées en favori.
+L'icône devra être mis à jour si on ajoute ou supprime une joke de la liste des favoris.
+Enfin, lors du lancement de l'application, les jokes précédemment placées en favori devront apparaître en premier sur l'interface.
   
 ## 5. Pull to refresh - Pas implémenté
 
+On rajoute une méthode de raffraichissement de l'application en swipant.
+Cette méthode doit être "visible" à l'aide d'une barre de progression pour indiquer qu'elle est en cours d'exécution.
+Elle remplace l'ancienne méthode de chargement qui était en place pour afficher les jokes.
+Pour finir, cette méthode pourra être configuré selon les goûts (style, taille, emplacement, couleur).
   
 ## 6. Conclusion
+
+En conclusion, nous avons une application qui affiche aléatoirement des jokes sur Chuck Norris grâce à une API en ligne.
+On a ainsi une liste infini de jokes que l'on peut supprimer, réorganiser, ajouter en favori ou encore partager sur d'autres applications.
