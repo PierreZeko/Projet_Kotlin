@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class JokeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0): ConstraintLayout(context, attrs, defStyleAttr){
 
-    init { LayoutInflater.from(context).inflate(R.layout.joke_layout, this, false) }
+    init { LayoutInflater.from(context).inflate(R.layout.joke_layout, this, true) }
 
     data class Model(val model: Model){
         val jokeText : String = JokeAdapter(onBottomReach = { Log.d("jokeText", "text of the joke")}).jokes[0].value
@@ -21,7 +21,7 @@ class JokeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun setupView(model: Model){
-        
+        inflate(context, R.layout.joke_layout, this)
     }
 
 }

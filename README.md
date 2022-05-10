@@ -153,15 +153,40 @@ Cela évite un rechargement intempestif des jokes et la perte de celles précéd
 Il faut donc penser à appeler ces méthodes dans le cas où des jokes avaient été affichées à l'écran.
   
 ## 2. Custom Joke View - Pas totalement implémenté
+Il est désormais temps de mettre à jour la façon dont nos jokes sont affichées. Pour ce faire, on crée une classe "JokeView.kt" qui hérite de ConstraintLayout. 
 
+On lui inflate "joke_layout.xml" et on peut continuer à customiser l'affichage des jokes.
+
+Cette classe contient une classe data "Model.kt" contenant certains attributs tels que le texte de la joke, un booléen pour mettre la joke en favori ou la partager.
+ 
+Puis, il y a une méthode "setupView(.)" qui permettra de mettre à jour l'affichage de la joke avec les nouveaux attributs de la classe "Model.kt".
   
+Le bouton de partage doit permettre d'afficher dans le Log l'id de la joke.
+  
+Le bouton de favori doit permettre d'afficher dans le Log l'id de la joke et de modifier l'icône associé.
+  
+Enfin, on crée une classe qui hérite de "ItemTouchHelper". 
+Cette classe doit pouvoir supprimer les jokes de la liste lorsque l'on swipe avec le doigt (méthode "onSwiped()")
+Elle doit également pouvoir modifier l'ordre d'affichage des jokes en les déplaçant (méthode "onMoved()")
+
 ## 3. Share jokes - Pas implémenté
 
+Le bouton de partage doit pouvoir permettre de récupérer le contenu de la joke (son texte) pour le copier ou bien le partager sur différentes applications.
   
 ## 4. Save jokes - Pas implémenté
 
+Dans cette partie, on va sauvegarder les jokes annotées en favori.
+L'icône devra être mis à jour si on ajoute ou supprime une joke de la liste des favoris.
+Enfin, lors du lancement de l'application, les jokes précédemment placées en favori devront apparaître en premier sur l'interface.
   
 ## 5. Pull to refresh - Pas implémenté
 
+On rajoute une méthode de raffraichissement de l'application en swipant.
+Cette méthode doit être "visible" à l'aide d'une barre de progression pour indiquer qu'elle est en cours d'exécution.
+Elle remplace l'ancienne méthode de chargement qui était en place pour afficher les jokes.
+Pour finir, cette méthode pourra être configuré selon les goûts (style, taille, emplacement, couleur).
   
 ## 6. Conclusion
+
+En conclusion, nous avons une application qui affiche aléatoirement des jokes sur Chuck Norris grâce à une API en ligne.
+On a ainsi une liste infini de jokes que l'on peut supprimer, réorganiser, ajouter en favori ou encore partager sur d'autres applications.
