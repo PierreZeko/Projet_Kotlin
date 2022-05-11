@@ -21,8 +21,8 @@ class JokeAdapter(private val onBottomReach: () -> Unit) : RecyclerView.Adapter<
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokeViewHolder {
-        val view: ConstraintLayout =
-            LayoutInflater.from(parent.context).inflate(R.layout.joke_layout, parent, false) as ConstraintLayout
+        val view: ConstraintLayout = JokeView(parent.context, attrs = null, defStyleAttr = 0)
+            //LayoutInflater.from(parent.context).inflate(R.layout.joke_layout, parent, false) as ConstraintLayout
         return JokeViewHolder(view)
     }
 

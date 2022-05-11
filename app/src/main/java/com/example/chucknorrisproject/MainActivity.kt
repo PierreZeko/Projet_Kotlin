@@ -1,6 +1,7 @@
 package com.example.chucknorrisproject
 
 import android.animation.ObjectAnimator
+import android.content.Intent
 import com.example.chucknorrisproject.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,6 +10,8 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +43,14 @@ class MainActivity : AppCompatActivity() {
         Log.d("test avant if", "${savedInstanceState?.containsKey(keyRotation) != true}")
         if (savedInstanceState?.containsKey(keyRotation) != true) {
             callJoke()
+
+            val shareButton = parent.findViewById<ImageView>(R.id.share_button)
+        shareButton.setOnClickListener{
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "text/plain"
+            intent.putExtra("Share this", adapter.jokes[0].url) //changer la méthode pour récupérer l'url de la joke
+            val intentChooser = Intent.createChooser(intent, "Share with:")
+        }
 
         /** JokeView(context = parent, attrs = null, defStyleAttr = 0).setupView(model = ) **/
 

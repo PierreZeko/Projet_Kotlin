@@ -21,7 +21,7 @@ class JokeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun setupView(model: Model){
-        inflate(context, R.layout.joke_layout, this)
+
     }
 
 }
