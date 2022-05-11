@@ -43,17 +43,21 @@ class MainActivity : AppCompatActivity() {
         Log.d("test avant if", "${savedInstanceState?.containsKey(keyRotation) != true}")
         if (savedInstanceState?.containsKey(keyRotation) != true) {
             callJoke()
+        }
 
-            val shareButton = parent.findViewById<ImageView>(R.id.share_button)
+        val shareButton = findViewById<Button>(R.id.share_button)
         shareButton.setOnClickListener{
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
             intent.putExtra("Share this", adapter.jokes[0].url) //changer la méthode pour récupérer l'url de la joke
             val intentChooser = Intent.createChooser(intent, "Share with:")
+            Log.d("share button clicked", adapter.jokes[0].id)
         }
 
-        /** JokeView(context = parent, attrs = null, defStyleAttr = 0).setupView(model = ) **/
-
+        val saveButton = findViewById<Button>(R.id.star_button)
+        saveButton.setOnClickListener {
+            //du code pour changer l'icône de l'étoile
+            Log.d("save button clicked", adapter.jokes[0].id)
         }
 
     }
