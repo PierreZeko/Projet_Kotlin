@@ -17,7 +17,10 @@ class JokeTouchHelper(
             target: RecyclerView.ViewHolder
         ): Boolean = TODO("use it to reorder items")
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) =
-            TODO("use it to delete items")
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+
+        }
     }
 )
+// val itemTouchHelper = ItemTouchHelper()
+//itemTouchHelper.attachToRecyclerView()

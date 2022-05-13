@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 
-class JokeAdapter(private val onBottomReach: () -> Unit) : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
+class JokeAdapter(val onBottomReach: () -> Unit) : RecyclerView.Adapter<JokeAdapter.JokeViewHolder>(){
 
     var jokes = listOf<Joke>()
 
@@ -16,19 +16,28 @@ class JokeAdapter(private val onBottomReach: () -> Unit) : RecyclerView.Adapter<
         notifyDataSetChanged()
     }
 
-    inner class JokeViewHolder(private val view: ConstraintLayout) : RecyclerView.ViewHolder(view){
+    inner class JokeViewHolder(val view: JokeView) : RecyclerView.ViewHolder(view){
         val textview: TextView = view.findViewById<TextView>(R.id.textview_id)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JokeViewHolder {
-        val view: ConstraintLayout = JokeView(parent.context, attrs = null, defStyleAttr = 0)
-            //LayoutInflater.from(parent.context).inflate(R.layout.joke_layout, parent, false) as ConstraintLayout
-        return JokeViewHolder(view)
+        val jokeView: JokeView = JokeView(parent.context, attrs = null, defStyleAttr = 0)
+        // val view: ConstraintLayout = LayoutInflater.from(parent.context).inflate(R.layout.joke_layout, parent, false) as ConstraintLayout
+        return JokeViewHolder(jokeView)
     }
 
     override fun onBindViewHolder(holder: JokeViewHolder, position: Int) {
-        val currentJoke: Joke = jokes[position]
-        holder.textview.text = currentJoke.value
+        //val currentJoke: Joke = jokes[position]
+        //holder.textview.text = currentJoke.value
+
+        val model: JokeView.Model = JokeView.Model(position,
+            jokes,
+            jokes[position].value,
+            jokes[position].id,
+            favoriteJoke = false,
+            sharedJoke = false)
+
+        holder.view.setupView(model)
         Log.d("onBind", "position=${position}, jokeSize=${jokes.lastIndex}")
         if (position == jokes.lastIndex && position >= 9) {
             onBottomReach()
