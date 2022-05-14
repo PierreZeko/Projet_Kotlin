@@ -21,6 +21,7 @@ class JokeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
                      val joke : List<Joke> = JokeAdapter(onBottomReach = { }).jokes,
                      val jokeText : String = joke[position].value,
                      val jokeId: String = joke[position].id,
+                     val jokeUrl: String = joke[position].url,
                      val favoriteJoke : Boolean = false,
                      val sharedJoke : Boolean = false
     )
@@ -29,10 +30,6 @@ class JokeView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         val jokeValue = model.jokeText
         val textview: TextView = findViewById<TextView>(R.id.textview_id)
         textview.text = jokeValue
-        if (model.favoriteJoke) {
-            val favoriteImage = findViewById<ImageView>(R.id.star_image)
-            favoriteImage.setImageResource(R.drawable.ic_baseline_star_rate_24)
-        }
     }
 
 }

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
@@ -33,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
         val recyclerview = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerview.adapter = adapter
 
@@ -43,30 +46,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("test avant if", "${savedInstanceState?.containsKey(keyRotation) != true}")
         if (savedInstanceState?.containsKey(keyRotation) != true) {
             callJoke()
-        }
-
-        /*val shareButton = findViewById<Button>(R.id.share_button)
-        shareButton.setOnClickListener{
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.type = "text/plain"
-            intent.putExtra("Share this", adapter.jokes[0].url) //changer la méthode pour récupérer l'url de la joke
-            val intentChooser = Intent.createChooser(intent, "Share with:")
-            Log.d("share button clicked", adapter.jokes[0].id)
-        }*/
-
-        val saveButton = findViewById<Button>(R.id.star_button)
-        saveButton.setOnClickListener {
-            //du code pour changer l'icône de l'étoile
-            Log.d("save button clicked", JokeView.Model(position = 0).jokeId)
-            val newModel = JokeView.Model(
-                position = 0,
-                adapter.jokes,
-                adapter.jokes[0].value,
-                adapter.jokes[0].id,
-                favoriteJoke = true,
-                sharedJoke = false
-            )
-            JokeView(it.context, attrs = null, defStyleAttr = 0).setupView(newModel)
         }
 
     }
