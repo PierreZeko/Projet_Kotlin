@@ -152,7 +152,7 @@ Cela évite un rechargement intempestif des jokes et la perte de celles précéd
   
 Il faut donc penser à appeler ces méthodes dans le cas où des jokes avaient été affichées à l'écran.
   
-## 2. Custom Joke View - Pas totalement implémenté
+## 2. Custom Joke View - Implémenté mais pas fonctionnel
 Il est désormais temps de mettre à jour la façon dont nos jokes sont affichées. Pour ce faire, on crée une classe "JokeView.kt" qui hérite de ConstraintLayout. 
 
 On lui inflate "joke_layout.xml" et on peut continuer à customiser l'affichage des jokes.
@@ -169,12 +169,10 @@ Enfin, on crée une classe qui hérite de "ItemTouchHelper".
 Cette classe doit pouvoir supprimer les jokes de la liste lorsque l'on swipe avec le doigt (méthode "onSwiped()")
 Elle doit également pouvoir modifier l'ordre d'affichage des jokes en les déplaçant (méthode "onMoved()")
 
-## 3. Share jokes - Pas implémenté
-
+## 3. Share jokes - Implémenté mais pas fonctionnel
 Le bouton de partage doit pouvoir permettre de récupérer le contenu de la joke (son texte) pour le copier ou bien le partager sur différentes applications.
   
-## 4. Save jokes - Pas implémenté
-
+## 4. Save jokes - Pas totalement implémenté et pas fonctionnel
 Dans cette partie, on va sauvegarder les jokes annotées en favori.
 L'icône devra être mis à jour si on ajoute ou supprime une joke de la liste des favoris.
 Enfin, lors du lancement de l'application, les jokes précédemment placées en favori devront apparaître en premier sur l'interface.
