@@ -177,7 +177,7 @@ Dans cette partie, on va sauvegarder les jokes annotées en favori.
 L'icône devra être mis à jour si on ajoute ou supprime une joke de la liste des favoris.
 Enfin, lors du lancement de l'application, les jokes précédemment placées en favori devront apparaître en premier sur l'interface.
   
-## 5. Pull to refresh - Pas implémenté
+## 5. Pull to refresh
 
 On rajoute une méthode de raffraichissement de l'application en swipant.
 Cette méthode doit être "visible" à l'aide d'une barre de progression pour indiquer qu'elle est en cours d'exécution.
