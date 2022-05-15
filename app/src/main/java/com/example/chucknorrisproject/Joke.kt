@@ -12,5 +12,7 @@ data class Joke(
     val id: String = "p3GHoau2SLGTv04XhtIeeg",
     @SerialName("updated_at") val updatedAt: String = "2020-01-05 13:42:29.296379",
     val url: String = "https://api.chucknorris.io/jokes/p3GHoau2SLGTv04XhtIeeg",
-    val value: String
+    val value: String,
+    val saveJoke: Boolean = false,
+    val sharedJoke: Boolean = false
     )

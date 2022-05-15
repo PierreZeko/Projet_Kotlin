@@ -2,5 +2,7 @@
     <string name="app_name">ChuckNorrisProject</string>
     <string name="text_view">Test TextView</string>
     <string name="Joke">Joke</string>
+    <string name="like_a_joke">like a joke</string>
+    <string name="share_a_joke">share a joke</string>
 
 </resources>

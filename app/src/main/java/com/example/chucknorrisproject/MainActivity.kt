@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity() {
             callJoke()
         }
 
+        val jokeTouchHelper = JokeTouchHelper(onJokeRemoved = false, onItemMoved = false)
+        jokeTouchHelper.attachToRecyclerView(recyclerview)
+
     }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
