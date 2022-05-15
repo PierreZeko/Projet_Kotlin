@@ -17,6 +17,7 @@ import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -38,6 +39,9 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerview = findViewById<RecyclerView>(R.id.recycler_view)
         recyclerview.adapter = adapter
+
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+        swipeRefresh(swipeRefreshLayout)
 
         //val buttonJoke = findViewById<Button>(R.id.button_id)
         //buttonJoke.setOnClickListener { callJoke() }
@@ -77,26 +81,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun callJoke() {
-        val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
-        progressBar.max = 10000
-        progressBar.progress = 0
-        ObjectAnimator.ofInt(progressBar, "progress", progressBar.max).setDuration(2000).start()
-        progressBar.visibility = View.VISIBLE
+        //val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
+        //progressBar.max = 10000
+        //progressBar.progress = 0
+        //ObjectAnimator.ofInt(progressBar, "progress", progressBar.max).setDuration(2000).start()
+        //progressBar.visibility = View.VISIBLE
+        val swipeRefreshLayout = findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+        swipeRefreshLayout.isRefreshing = true
         jokeService.giveMeAJoke().toObservable().repeat(10).delay(2000, TimeUnit.MILLISECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribeBy(
             onError = {
-                progressBar.visibility = View.INVISIBLE
-                Log.d("error", "an error occurred") },
+                //progressBar.visibility = View.INVISIBLE
+                Log.d("error", "an error occurred")
+                swipeRefreshLayout.isRefreshing = false },
             onNext = {
-                progressBar.visibility = View.INVISIBLE
+                //progressBar.visibility = View.INVISIBLE
                 Log.d("success", "The joke is: ${it.value}")
                 adapter.updateList(it)
+                swipeRefreshLayout.isRefreshing = false
             },
             onComplete = {
                 Log.d("end", "10 jokes have been shown") }
         ).also { compositeDisposable.add(it) }
     }
 
-
+    private fun swipeRefresh(swipeRefreshLayout: SwipeRefreshLayout) {
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = false
+        }
+    }
 
     /*object Jokes {
         val jokes_list = listOf<String>("Some people balance eggs on end every Spring and Fall Equinox, but Chuck Norris balances skulls.",

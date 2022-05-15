@@ -1,5 +1,6 @@
 package com.example.chucknorrisproject
 
+import android.content.Intent
 import android.util.Log
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +14,15 @@ class JokeTouchHelper(private val onJokeRemoved: Boolean, private val onItemMove
         val adapter = JokeAdapter(onBottomReach = {})
 
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-            Log.d("a joke has been moved", adapter.jokes[viewHolder.layoutPosition].value)
-            val jokeInitialPosition: Int = viewHolder.layoutPosition
-            val jokeFinalPosition: Int = target.layoutPosition
-            Collections.swap(adapter.jokes, jokeInitialPosition, jokeFinalPosition)
-            adapter.notifyItemMoved(jokeInitialPosition, jokeInitialPosition)
-            return false
+            if (onItemMoved) {
+                Log.d("a joke has been moved", adapter.jokes[viewHolder.layoutPosition].value)
+                val jokeInitialPosition: Int = viewHolder.layoutPosition
+                val jokeFinalPosition: Int = target.layoutPosition
+                Collections.swap(adapter.jokes, jokeInitialPosition, jokeFinalPosition)
+                adapter.notifyItemMoved(jokeInitialPosition, jokeInitialPosition)
+                return false
+            }
+            return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
